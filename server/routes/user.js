@@ -5,6 +5,8 @@ const app = express()
 const bodyParser = require('body-parser');
 const User = require('../models/user');
 
+
+
 // parse application/x-www-form-urlencoded
 app.use(bodyParser.urlencoded({ extended: false }))
     // parse application/json
