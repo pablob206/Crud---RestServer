@@ -21,7 +21,7 @@ mongoose.connect(process.env.URLDB, {
     useUnifiedTopology: true
 }, (err, res) => {
     if (err) throw err;
-    console.log('mongoose.connect - Base de datos ONLINE');
+    console.log('mongoose.connect - Base de datos ONLINE!');
 });
 /* 
 db.on('error', console.error.bind(console, 'connection error:'));
