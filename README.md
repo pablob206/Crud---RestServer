@@ -3,7 +3,9 @@ crud con express mas mongoDB.
 
 ```
 node server/server
-luego usar POSTMAN!
+luego usar POSTMAN! ej: 
+GET: .../user?limite=10&desde=0
+
 ```
 
 ### Nota:
