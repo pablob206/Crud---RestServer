@@ -1,18 +1,24 @@
 const express = require('express')
 const bcrypt = require('bcryptjs');
 const _ = require('underscore');
-const app = express()
 const bodyParser = require('body-parser');
 const User = require('../models/user');
+const { verificaToken, verificaAdmin_Role } = require('../middlewares/autenticacion');
 
-
+const app = express();
 
 // parse application/x-www-form-urlencoded
 app.use(bodyParser.urlencoded({ extended: false }))
     // parse application/json
 app.use(bodyParser.json())
 
-app.get('/user', function(req, res) {
+app.get('/user', verificaToken, (req, res) => {
+
+    return res.json({
+        user: req.user,
+        nombre: req.user.nombre,
+        email: req.user.email,
+    });
 
     let desde = req.query.desde || 0;
     desde = Number(desde);
@@ -46,7 +52,7 @@ app.get('/user', function(req, res) {
 
 });
 
-app.post('/user', function(req, res) {
+app.post('/user', [verificaToken, verificaAdmin_Role], function(req, res) {
     let body = req.body;
 
     let user = new User({
@@ -84,7 +90,7 @@ app.post('/user', function(req, res) {
     } */
 });
 
-app.put('/user/:id', function(req, res) {
+app.put('/user/:id', [verificaToken, verificaAdmin_Role], function(req, res) {
 
     let id = req.params.id;
     let body = _.pick(req.body, ['name', 'email', 'img', 'role', 'status']);
@@ -107,7 +113,7 @@ app.put('/user/:id', function(req, res) {
 
 });
 
-app.delete('/user/:id', function(req, res) {
+app.delete('/user/:id', [verificaToken, verificaAdmin_Role], function(req, res) {
 
     let id = req.params.id;
 

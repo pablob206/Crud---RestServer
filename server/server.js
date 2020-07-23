@@ -1,12 +1,19 @@
 require('./config/config');
 
+const express = require('express');
 const mongoose = require('mongoose');
-const express = require('express')
-    /* const bodyParser = require('body-parser'); */
-const app = express()
-const db = mongoose.connection;
 
-app.use(require('./routes/user'));
+const app = express();
+
+const bodyParser = require('body-parser');
+
+// parse application/x-www-form-urlencoded
+app.use(bodyParser.urlencoded({ extended: false }));
+// parse application/json
+app.use(bodyParser.json());
+
+//Configuracion global de rutas
+app.use(require('./routes/index'));
 
 /* mongoose.connect(process.env.URLDB, (err, res) => {
 
@@ -15,6 +22,8 @@ app.use(require('./routes/user'));
     console.log('Base de datos ONLINE');
 
 }); */
+
+const db = mongoose.connection;
 
 mongoose.connect(process.env.URLDB, {
     useNewUrlParser: true,
